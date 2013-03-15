@@ -2234,24 +2234,18 @@ the specific language governing permissions and limitations under the Apache Lic
 
         // multi
         initSelection: function () {
-            var data;
-            if (this.opts.element.val() === "" && this.opts.element.text() === "") {
-                this.updateSelection([]);
-                this.close();
+            var self = this;
+            this.opts.initSelection.call(null, this.opts.element, function(data){
+                if (data !== undefined && data !== null) {
+                    self.updateSelection(data);
+				}
+				else {
+					this.updateSelection([]);
+				}
+                self.close();
                 // set the placeholder if necessary
-                this.clearSearch();
-            }
-            if (this.select || this.opts.element.val() !== "") {
-                var self = this;
-                this.opts.initSelection.call(null, this.opts.element, function(data){
-                    if (data !== undefined && data !== null) {
-                        self.updateSelection(data);
-                        self.close();
-                        // set the placeholder if necessary
-                        self.clearSearch();
-                    }
-                });
-            }
+                self.clearSearch();
+            });
         },
 
         // multi
